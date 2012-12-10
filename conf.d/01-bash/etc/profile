@@ -1,0 +1,17 @@
+# /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
+# and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+
+if [ "`id -u`" -eq 0 ]; then
+	PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11"
+	PS1="[\u@\h \W]# "
+else
+	PATH="/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games"
+	PS1="[\u@\h \W]$ "
+fi
+
+export PATH
+export PS1
+
+if [ -f /etc/bashrc  ]; then
+	. /etc/bashrc
+fi

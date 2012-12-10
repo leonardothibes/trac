@@ -1,0 +1,41 @@
+Console de linha de comando para o controle de projetos e repositórios.
+Uso:
+    project {list|create|delete|passwd|user-remove|user-list|admin|admin-remove|backup|help} {nome-do-projeto}
+
+Ações:
+    list
+	Lista todos os projetos.
+	Uso: project list
+
+    create
+	Cria um novo projeto e seu respectivo repositório.
+	Uso: project create {nome-do-projeto}
+
+    delete
+	Deleta um projeto e seu repositório.
+	Uso: project delete {nome-do-projeto}
+
+    passwd
+	Define uma senha para um usuário. Caso o usuário ainda não exista este será criado.
+	Uso: project passwd {login-do-usuario}
+
+    user-remove
+	Deleta um usuário.
+	Uso: project user-remove {login-do-usuario}
+
+    user-list
+	Lista todos os usuários cadastrados.
+	Uso: project user-list
+
+    admin
+	Atribui privilégios de administrador a um usuário previamente cadastrado.
+	Uso: project admin {nome-do-rojeto} {login-do-usuário}
+
+    admin-remove
+	Revoga os provilégios de administrador de um usuário.
+	Uso: project admin-remove {nome-do-rojeto} {login-do-usuário}
+
+    bakcup
+	Faz backup de um projeto em "/backups".
+	Uso: project backup {nome-do-projeto}
+

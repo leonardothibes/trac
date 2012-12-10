@@ -1,0 +1,59 @@
+#!/bin/bash
+
+if [ "`id -u`" -ne 0 ]; then
+	echo "É necessário ter permissão de root para esta operação"
+	exit 1
+fi
+
+TRAC=/var/lib/trac/
+PASS=/etc/apache2/passwd
+LOG_DIR=/var/log/trac
+LOG_FILE=$LOG_DIR/trac_`date +%Y-%m-%d`.log
+PID_FILE=/var/run/trac.pid
+PORT=8000
+
+if [ ! -d $LOG_DIR ]; then
+    mkdir $LOG_DIR
+fi
+
+case "$1" in
+	start)
+		if [ ! -f $PID_FILE ]; then
+			echo "Starting Trac Daemon..."
+			cd $TRAC
+			tracd * -d --pidfile=$PID_FILE --port=$PORT --basic-auth=*,$PASS,* 1>> $LOG_FILE 2>> $LOG_FILE
+			chown -R www-data.root $LOG_DIR
+		else
+			PID=`cat $PID_FILE`
+			echo "Trac is runing (pid $PID)."
+		fi
+	;;
+	stop)
+		if [ -f $PID_FILE ]; then
+			echo "Stoping Trac Daemon..."
+			PID=`cat $PID_FILE`
+			kill -15 $PID
+			rm -f $PID_FILE
+		else
+			echo "Trac is NOT runing."
+		fi
+	;;
+	restart)
+		$0 stop
+		$0 start
+	;;
+	status)
+		if [ -f $PID_FILE ]; then
+			PID=`cat $PID_FILE`
+			echo "Trac is runing (pid $PID)."
+		else
+			echo "Trac is NOT runing."
+		fi
+	;;
+	*)
+		echo "Usage: /etc/init.d/trac {start|stop|restart|status}"
+		exit 1
+	;;
+esac
+
+exit 0

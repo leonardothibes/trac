@@ -1,0 +1,65 @@
+#!/bin/bash
+
+if [ "`id -u`" -ne 0 ]; then
+	echo "É necessário ter permissão de root para esta operação"
+	exit 1
+fi
+
+export WWW=www-data
+export FUNC=`dirname $0`/functions
+. $FUNC/common.sh
+
+case "$1" in
+	list)
+		#Listando todos os projetos.
+		common-list
+	;;
+	create)
+		#Criando o projeto.
+		common-create $2
+	;;
+	delete)
+		#Deletando o projeto.
+		common-delete $2
+	;;
+	passwd)
+		#Definindo senha para um usuário.
+		common-passwd $2
+	;;
+	user-remove)
+		#Removendo um usuário.
+		common-user-remove $2
+	;;
+	user-list)
+		#Listando todos os usuários.
+		common-user-list $2
+	;;
+	admin)
+		#Atribuindo o admin.
+		common-admin $2 $3
+	;;
+	admin-remove)
+		#Removendo o admin.
+		common-admin-remove $2 $3
+	;;
+	backup)
+		#Executando backup geral do projeto.
+		common-backup $2
+	;;
+	help)
+		#Exibindo help com a lista de comandos.
+		. $FUNC/common.sh
+		help
+	;;
+	--help)
+		#Exibindo help com a lista de comandos.
+		$0 help
+	;;
+	*)
+		#Exibindo opções aceitas na linha de comando.
+		echo "Usage: project {list|create|delete|passwd|user-remove|user-list|admin|admin-remove|backup|help}"
+		exit 1
+	;;
+esac
+
+exit 0

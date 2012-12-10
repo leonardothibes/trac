@@ -1,0 +1,4 @@
+<VirtualHost *:80>
+	ServerName  HOSTNAME
+	Redirect    / http://HOSTNAME:8000
+</VirtualHost>
